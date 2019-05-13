@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 // Register JW Shell Exec module
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-    'JWeiland.jw_shell_exec',
+    'JWeiland.jwShellExec',
     'web',
     'jwshell',
     '',
