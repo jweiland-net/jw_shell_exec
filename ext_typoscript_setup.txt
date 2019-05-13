@@ -1,13 +1,13 @@
-module.c {
+module.tx_jwshellexec {
   view {
     templateRootPaths {
-      0 = EXT:jwshellexec/Resources/Private/Backend/Templates/
+      10 = EXT:jw_shell_exec/Resources/Private/Backend/Templates/
     }
     partialRootPaths {
-      0 = EXT:jwshellexec/Resources/Private/Backend/Partials/
+      10 = EXT:jw_shell_exec/Resources/Private/Backend/Partials/
     }
     layoutRootPaths {
-      0 = EXT:jwshellexec/Resources/Private/Backend/Layouts/
+      10 = EXT:jw_shell_exec/Resources/Private/Backend/Layouts/
     }
   }
 }

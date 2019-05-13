@@ -14,7 +14,7 @@ if (!defined('TYPO3_MODE')) {
     ],
     [
         'access' => 'user,group',
-        'icon' => 'EXT:jw_shell_exec/Resources/Public/Icons/module.gif',
+        'icon' => 'EXT:jw_shell_exec/Resources/Public/Icons/Module.svg',
         'labels' => 'LLL:EXT:jw_shell_exec/Resources/Private/Language/locallang_module.xlf',
     ]
 );
