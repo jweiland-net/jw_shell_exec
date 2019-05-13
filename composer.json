@@ -1,0 +1,26 @@
+{
+    "name": "jweiland/jw-shell-exec",
+    "type": "typo3-cms-extension",
+    "description": "With this extension you can execute exactly one defined Shell command as long as only one editor is logged into backend",
+    "license": "GPL-2.0-or-later",
+    "keywords": ["typo3", "TYPO3 CMS", "shell", "cli", "script"],
+    "homepage": "http://www.jweiland.net",
+    "authors": [
+      {
+        "name": "Stefan Froemken",
+        "email": "sfroemken@jweiland.net",
+        "role": "Lead Developer"
+      }
+    ],
+    "support": {
+      "email": "projects@jweiland.net",
+      "issues": "https://github.com/jweiland-net/jw_shell_exec/issues",
+      "source": "https://github.com/jweiland-net/jw_shell_exec"
+    },
+    "require": {
+      "typo3/cms-core": "^8.7 || ^9.5"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "~4.8.0"
+    }
+}

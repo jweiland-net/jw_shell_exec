@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-07-13T13:47:40Z" product-name="jw_shell_script">
+		<header/>
+		<body>
+			<trans-unit id="shellScript">
+				<source>Shell script to execute: Please type in the path to the shell script. Please prefix path with 'EXT:' or fill in the full absolute path</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
