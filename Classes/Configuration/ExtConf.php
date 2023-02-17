@@ -28,14 +28,13 @@ class ExtConf implements SingletonInterface
     protected $shellScript = '';
 
     /**
-     * constructor of this class
      * This method reads the global configuration and calls the setter methods.
      */
     public function __construct()
     {
         // get global configuration
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('jw_shell_exec');
-        if (is_array($extConf) && count($extConf)) {
+        if (is_array($extConf)) {
             // call setter method foreach configuration entry
             foreach ($extConf as $key => $value) {
                 $methodName = 'set' . ucfirst($key);
@@ -53,7 +52,11 @@ class ExtConf implements SingletonInterface
 
     public function getResolvedShellScript(): string
     {
-        return GeneralUtility::getFileAbsFileName($this->shellScript);
+        if ($this->getShellScriptBeginsWithExt()) {
+            return GeneralUtility::getFileAbsFileName($this->shellScript);
+        }
+
+        return $this->getShellScript();
     }
 
     public function getShellScriptBeginsWithExt(): bool
