@@ -21,7 +21,8 @@
 		"typo3/cms-core": "^10.4.32 || ^11.5.16"
 	},
 	"require-dev": {
-		"roave/security-advisories": "dev-latest"
+		"roave/security-advisories": "dev-latest",
+		"friendsofphp/php-cs-fixer": "^3.14"
 	},
 	"autoload": {
 		"psr-4": {
