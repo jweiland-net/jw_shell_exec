@@ -1,24 +1,22 @@
 <?php
-namespace JWeiland\JwShellExec\Controller;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the jw_shell_exec project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/jw-shell-exec.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\JwShellExec\Controller;
 
 use JWeiland\JwShellExec\Configuration\ExtConf;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Beuser\Domain\Model\BackendUser;
 use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -48,20 +46,15 @@ class ShellController extends ActionController
      */
     protected $extConf;
 
-    public function __construct(ExtConf $extConf = null)
+    public function injectExtConf(ExtConf $extConf): void
     {
-        parent::__construct();
-
-        if ($extConf === null) {
-            $extConf = GeneralUtility::makeInstance(ExtConf::class);
-        }
         $this->extConf = $extConf;
     }
 
     /**
      * Action to show a form, where you will see the other logged in users
      */
-    public function showAction()
+    public function showAction(): void
     {
         $this->view->assign('extConf', $this->extConf);
         $this->view->assign('loggedInUsers', $this->getLoggedInUsers());
@@ -70,7 +63,7 @@ class ShellController extends ActionController
     /**
      * This action will execute the configured shell script from extensionmanager configuration
      */
-    public function execAction()
+    public function execAction(): void
     {
         $output = '';
         $returnValue = 0;
@@ -79,25 +72,24 @@ class ShellController extends ActionController
         if ($returnValue === 0) {
             $this->addFlashMessage(
                 'Your script was executed without any problems',
-                'Executed',
-                FlashMessage::OK
+                'Executed'
             );
         } else {
             $this->addFlashMessage(
                 'Your script returns another ReturnValue greater than 0',
                 'Oups',
-                FlashMessage::ERROR
+                AbstractMessage::ERROR
             );
             $this->addFlashMessage(
                 'Maybe helpful: Your script returns following output: ' . $output,
                 'Output',
-                FlashMessage::INFO
+                AbstractMessage::INFO
             );
         }
         $this->redirect('show', 'Shell', 'jwShellExec');
     }
 
-    protected function getLoggedInUsers()
+    protected function getLoggedInUsers(): array
     {
         $backendUserRepository = $this->objectManager->get(BackendUserRepository::class);
         /** @var BackendUser[] $loggedInUsers */
@@ -107,13 +99,12 @@ class ShellController extends ActionController
                 unset($loggedInUsers[$key]);
             }
         }
+
         $this->view->assign('loggedInUsers', $backendUserRepository->findOnline());
+
         return $loggedInUsers;
     }
 
-    /**
-     * @return BackendUserAuthentication
-     */
     protected function getBackendUserAuthentication(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
