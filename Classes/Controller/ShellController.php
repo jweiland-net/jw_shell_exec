@@ -12,14 +12,11 @@ declare(strict_types=1);
 namespace JWeiland\JwShellExec\Controller;
 
 use JWeiland\JwShellExec\Configuration\ExtConf;
+use JWeiland\JwShellExec\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
-use TYPO3\CMS\Beuser\Domain\Model\BackendUser;
-use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\CommandUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -46,9 +43,19 @@ class ShellController extends ActionController
      */
     protected $extConf;
 
+    /**
+     * @var BackendUserRepository
+     */
+    protected $backendUserRepository;
+
     public function injectExtConf(ExtConf $extConf): void
     {
         $this->extConf = $extConf;
+    }
+
+    public function injectBackendUserRepository(BackendUserRepository $backendUserRepository): void
+    {
+        $this->backendUserRepository = $backendUserRepository;
     }
 
     /**
@@ -91,16 +98,14 @@ class ShellController extends ActionController
 
     protected function getLoggedInUsers(): array
     {
-        $backendUserRepository = $this->objectManager->get(BackendUserRepository::class);
-        /** @var BackendUser[] $loggedInUsers */
-        $loggedInUsers = $backendUserRepository->findOnline();
+        $loggedInUsers = $this->backendUserRepository->findOnline();
         foreach ($loggedInUsers as $key => $loggedInUser) {
             if ((int)$this->getBackendUserAuthentication()->user['uid'] === $loggedInUser->getUid()) {
                 unset($loggedInUsers[$key]);
             }
         }
 
-        $this->view->assign('loggedInUsers', $backendUserRepository->findOnline());
+        $this->view->assign('loggedInUsers', $this->backendUserRepository->findOnline());
 
         return $loggedInUsers;
     }
