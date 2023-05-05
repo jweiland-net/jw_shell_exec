@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace JWeiland\JwShellExec\Controller;
 
 use JWeiland\JwShellExec\Configuration\ExtConf;
-use JWeiland\JwShellExec\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\CommandUtility;
@@ -24,29 +24,13 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class ShellController extends ActionController
 {
-    /**
-     * Backend Template Container
-     *
-     * @var string
-     */
     protected $defaultViewObjectName = BackendTemplateView::class;
 
-    /**
-     * BackendTemplateContainer
-     *
-     * @var BackendTemplateView
-     */
     protected $view;
 
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var BackendUserRepository
-     */
-    protected $backendUserRepository;
+    protected BackendUserRepository $backendUserRepository;
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -68,7 +52,7 @@ class ShellController extends ActionController
     }
 
     /**
-     * This action will execute the configured shell script from extensionmanager configuration
+     * This action will execute the configured shell script from ExtensionManager configuration
      */
     public function execAction(): void
     {
@@ -98,7 +82,7 @@ class ShellController extends ActionController
 
     protected function getLoggedInUsers(): array
     {
-        $loggedInUsers = $this->backendUserRepository->findOnline();
+        $loggedInUsers = $this->backendUserRepository->findOnline()->toArray();
         foreach ($loggedInUsers as $key => $loggedInUser) {
             if ((int)$this->getBackendUserAuthentication()->user['uid'] === $loggedInUser->getUid()) {
                 unset($loggedInUsers[$key]);

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package jweiland/yellowpages2.
+ * This file is part of the package jweiland/jw-shell-exec.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -14,7 +14,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $headerComment = <<<COMMENT
-This file is part of the package jweiland/yellowpages2.
+This file is part of the package jweiland/jw-shell-exec.
 
 For the full copyright and license information, please read the
 LICENSE file that was distributed with this source code.
@@ -46,7 +46,7 @@ return (new \PhpCsFixer\Config())
         'function_typehint_space' => true,
         'lowercase_cast' => true,
         'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
-        'modernize_strpos' => true,
+        'modernize_strpos' => false,
         'modernize_types_casting' => true,
         'native_function_casing' => true,
         'new_with_braces' => true,

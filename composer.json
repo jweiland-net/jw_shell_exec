@@ -1,10 +1,16 @@
 {
 	"name": "jweiland/jw-shell-exec",
 	"type": "typo3-cms-extension",
-	"description": "With this extension you can execute exactly one defined Shell command as long as only one editor is logged into backend",
+	"description": "With this extension you can execute exactly one defined shell command as long as only one editor is logged into backend",
 	"license": "GPL-2.0-or-later",
-	"keywords": ["typo3", "TYPO3 CMS", "shell", "cli", "script"],
-	"homepage": "https://www.jweiland.net",
+	"keywords": [
+		"typo3",
+		"TYPO3 CMS",
+		"shell",
+		"cli",
+		"script"
+	],
+	"homepage": "https://jweiland.net",
 	"authors": [
 		{
 			"name": "Stefan Froemken",
@@ -18,7 +24,7 @@
 		"source": "https://github.com/jweiland-net/jw_shell_exec"
 	},
 	"require": {
-		"typo3/cms-core": "^10.4.32 || ^11.5.16"
+		"typo3/cms-core": "^11.5.23 || ^12.4.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-latest",
@@ -49,9 +55,9 @@
 		}
 	},
 	"scripts": {
-		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/config.php fix",
+		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/php-cs-fixer.php fix",
 		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/config.php fix --dry-run -v --show-progress=dots --diff",
+		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/php-cs-fixer.php fix --dry-run -v --show-progress=dots --diff",
 		"link-extension": [
 			"@php -r 'is_dir($extFolder=__DIR__.\"/.build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
 			"@php -r 'file_exists($extFolder=__DIR__.\"/.build/public/typo3conf/ext/jw_shell_exec\") || symlink(__DIR__,$extFolder);'"
