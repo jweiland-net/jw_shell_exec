@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/jweiland-net/jw_shell_exec/workflows/CI/badge.svg)
 
-With this extension you can execute exactly one defined Shell command as long as only
+With this extension you can execute exactly one defined shell command as long as only
 one editor is logged into backend
 
 ## 1 Features
