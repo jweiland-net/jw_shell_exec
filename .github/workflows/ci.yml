@@ -10,17 +10,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typo3: [^10.4, ^11.5]
-        php: ['7.4']
+        typo3: [ '^11.5', '^12.4' ]
+        php: [ '7.4' ]
         include:
-        - typo3: ^11.5
+        - typo3: ^12.4
           php: '8.0'
-        - typo3: ^11.5
+        - typo3: ^12.4
           php: '8.1'
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup PHP ${{ matrix.php }}, with composer and extensions
       uses: shivammathur/setup-php@v2
