@@ -1,64 +1,64 @@
 <html lang="en"
-			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-			data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="Main">
-	<f:flashMessages />
+    <f:flashMessages/>
 
-	<f:if condition="{extConf.shellScriptBeginsWithExt}">
-		<div>Resolved Shell script path: <code>{extConf.resolvedShellScript}</code></div>
-	</f:if>
+    <f:if condition="{extConf.shellScriptBeginsWithExt}">
+        <div>Resolved Shell script path: <code>{extConf.resolvedShellScript}</code></div>
+    </f:if>
 
-	<f:if condition="{extConf.shellScriptExists}==0">
-		<div class="alert alert-warning">
-			<h4>Warning</h4>
-			Configured Shell Script can not be found. Please check path
-		</div>
-	</f:if>
+    <f:if condition="{extConf.shellScriptExists}==0">
+        <div class="alert alert-warning">
+            <h4>Warning</h4>
+            Configured Shell Script can not be found. Please check path
+        </div>
+    </f:if>
 
-	<f:if condition="{extConf.shellScriptExecutable}==0">
-		<div class="alert alert-warning">
-			<h4>Warning</h4>
-			Configured Shell Script has no execution rights (+x)
-		</div>
-	</f:if>
+    <f:if condition="{extConf.shellScriptExecutable}==0">
+        <div class="alert alert-warning">
+            <h4>Warning</h4>
+            Configured Shell Script has no execution rights (+x)
+        </div>
+    </f:if>
 
-	<h1>Execute Shell Script</h1>
-	<div>Currently configured shell script path: <code>{extConf.shellScript}</code></div>
+    <h1>Execute Shell Script</h1>
+    <div>Currently configured shell script path: <code>{extConf.shellScript}</code></div>
 
-	<f:if condition="{loggedInUsers->f:count()}==0">
-		<div class="alert alert-success">
-			<h4>No users logged in</h4>
-			Perfect. Currently there are no other users logged in. You can start the script execution.
-		</div>
-		<f:link.action action="exec" class="btn btn-primary">Execute</f:link.action>
-	</f:if>
+    <f:if condition="{loggedInUsers->f:count()}==0">
+        <div class="alert alert-success">
+            <h4>No users logged in</h4>
+            Perfect. Currently there are no other users logged in. You can start the script execution.
+        </div>
+        <f:link.action action="exec" class="btn btn-primary">Execute</f:link.action>
+    </f:if>
 
-	<f:if condition="{loggedInUsers}">
-		<h2>Currently logged in Users</h2>
+    <f:if condition="{loggedInUsers}">
+        <h2>Currently logged in Users</h2>
 
-		<div class="alert alert-success">
-			<h4>Other logged in users found</h4>
-			Shell Script can not be executed while other editors are currently logged in.
-		</div>
+        <div class="alert alert-success">
+            <h4>Other logged in users found</h4>
+            Shell Script can not be executed while other editors are currently logged in.
+        </div>
 
-		<ul>
-			<f:for each="{loggedInUsers}" as="loggedInUser">
-				<li>
-					<f:if condition="{loggedInUser.realName}">
-						<f:then>
-							{loggedInUser.realName}
-						</f:then>
-						<f:else>
-							No name given
-						</f:else>
-					</f:if>
-					({loggedInUser.userName})
-				</li>
-			</f:for>
-		</ul>
-	</f:if>
+        <ul>
+            <f:for each="{loggedInUsers}" as="loggedInUser">
+                <li>
+                    <f:if condition="{loggedInUser.realName}">
+                        <f:then>
+                            {loggedInUser.realName}
+                        </f:then>
+                        <f:else>
+                            No name given
+                        </f:else>
+                    </f:if>
+                    ({loggedInUser.userName})
+                </li>
+            </f:for>
+        </ul>
+    </f:if>
 </f:section>
 </html>
