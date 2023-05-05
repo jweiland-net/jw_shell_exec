@@ -4,7 +4,7 @@
 	"description": "With this extension you can execute exactly one defined Shell command as long as only one editor is logged into backend",
 	"license": "GPL-2.0-or-later",
 	"keywords": ["typo3", "TYPO3 CMS", "shell", "cli", "script"],
-	"homepage": "https://www.jweiland.net",
+	"homepage": "https://jweiland.net",
 	"authors": [
 		{
 			"name": "Stefan Froemken",
