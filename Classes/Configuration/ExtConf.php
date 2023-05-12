@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -23,11 +24,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ExtConf implements SingletonInterface
 {
     /**
-     * shell script path
-     *
-     * @var string
+     * Shell script path
      */
-    protected $shellScript = '';
+    protected string $shellScript = '';
+
+    /**
+     * Allow parallel execution
+     */
+    protected bool $allowParallelExecution = false;
 
     /**
      * This method reads the global configuration and calls the setter methods.
@@ -37,7 +41,7 @@ class ExtConf implements SingletonInterface
         try {
             $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('jw_shell_exec');
             if (is_array($extConf)) {
-                // call setter method foreach configuration entry
+                // Call setter method foreach configuration entry
                 foreach ($extConf as $key => $value) {
                     $methodName = 'set' . ucfirst($key);
                     if (method_exists($this, $methodName)) {
@@ -54,32 +58,48 @@ class ExtConf implements SingletonInterface
         return $this->shellScript;
     }
 
-    public function getResolvedShellScript(): string
+    public function setShellScript(string $shellScript): void
     {
-        if ($this->getShellScriptBeginsWithExt()) {
-            return GeneralUtility::getFileAbsFileName($this->shellScript);
-        }
-
-        return $this->getShellScript();
+        $this->shellScript = $shellScript;
     }
 
-    public function getShellScriptBeginsWithExt(): bool
+    public function isAllowParallelExecution(): bool
     {
-        return strpos($this->shellScript, 'EXT:') === 0;
+        return $this->allowParallelExecution;
+    }
+
+    public function setAllowParallelExecution(string $allowParallelExecution): void
+    {
+        $this->allowParallelExecution = (bool)$allowParallelExecution;
     }
 
     public function getShellScriptExists(): bool
     {
-        return @is_file($this->shellScript);
+        return CommandUtility::checkCommand($this->getExecutable());
     }
 
-    public function getShellScriptExecutable(): bool
+    public function getExecutable(): string
     {
-        return @is_executable($this->shellScript);
+        $parts = GeneralUtility::trimExplode(' ', $this->shellScript, true);
+        if ($parts === []) {
+            return '';
+        }
+
+        return $parts[0];
     }
 
-    public function setShellScript(string $shellScript): void
+    public function getPreparedShellCommand(): string
     {
-        $this->shellScript = $shellScript;
+        $parts = GeneralUtility::trimExplode(' ', $this->shellScript, true);
+        if (count($parts) < 2) {
+            return CommandUtility::getCommand($this->getExecutable());
+        }
+
+        $executable = array_shift($parts);
+        $parts = array_map(function ($argument) {
+            return CommandUtility::escapeShellArgument($argument);
+        }, $parts);
+
+        return CommandUtility::getCommand($executable) . ' ' . implode(' ', $parts);
     }
 }

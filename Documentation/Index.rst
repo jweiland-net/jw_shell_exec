@@ -32,7 +32,8 @@ JW Shell Exec
 
 ----
 
-With `jw_shell_exec` you can execute just ONE configured shell script from a TYPO3 BE module.
+With `jw_shell_exec` you can execute just ONE configured shell script
+from a TYPO3 BE module.
 
 ----
 

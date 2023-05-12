@@ -4,7 +4,10 @@
 		<header/>
 		<body>
 			<trans-unit id="shellScript">
-				<source>Shell script to execute: Please type in the path to the shell script. Please prefix path with 'EXT:' or fill in the full absolute path</source>
+				<source>Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</source>
+			</trans-unit>
+			<trans-unit id="allowParallelExecution">
+				<source>Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</source>
 			</trans-unit>
 		</body>
 	</file>

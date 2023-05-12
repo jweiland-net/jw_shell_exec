@@ -1,2 +1,4 @@
 # cat=basic; type=string; label=LLL:EXT:jw_shell_exec/Resources/Private/Language/ExtConf.xlf:shellScript
-shellScript = EXT:
+shellScript = pwd
+# cat=basic; type=bool; label=LLL:EXT:jw_shell_exec/Resources/Private/Language/ExtConf.xlf:allowParallelExecution
+allowParallelExecution = 0

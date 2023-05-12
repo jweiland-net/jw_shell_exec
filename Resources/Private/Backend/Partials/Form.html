@@ -1,0 +1,57 @@
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<h1>Execute Shell Script</h1>
+
+<f:if condition="{extConf.shellScriptExists}==0">
+    <div class="alert alert-warning">
+        <h4>Warning</h4>
+        Configured Shell Script can not be found or is not executable (missing +x rights). Please configure a path to
+        a shell script in Extension Settings and check if execution rights are set.
+    </div>
+</f:if>
+
+<p>
+    Currently configured shell script path:<br>
+    <code>{extConf.shellScript}</code>
+</p>
+
+<f:if condition="{extConf.allowParallelExecution} || {loggedInUsers->f:count()}==0">
+    <f:then>
+        <f:if condition="{extConf.shellScriptExists}">
+            <f:then>
+                <f:link.action action="exec" class="btn btn-primary mb-3">Execute</f:link.action>
+            </f:then>
+            <f:else>
+                <div class="alert alert-warning">
+                    <h4>Invalid configuration</h4>
+                    Please solve configuration issues from above and visit this module again.
+                </div>
+            </f:else>
+        </f:if>
+    </f:then>
+    <f:else>
+        <h2>Currently logged in Users</h2>
+
+        <div class="alert alert-warning">
+            <h4>Other logged in users found</h4>
+            To prevent side-effects while executing the script at the same time, executing is disabled until
+            all other BE users have been logged out. As an administrator you can activate parallel execution
+            in Extension Settings.
+        </div>
+
+        <ul class="list-group">
+            <f:for each="{loggedInUsers}" as="loggedInUser">
+                <li class="list-group-item">
+                    <f:if condition="{loggedInUser.realName}">
+                        <f:then>{loggedInUser.realName}</f:then>
+                        <f:else>No name given</f:else>
+                    </f:if>
+                    ({loggedInUser.userName})
+                </li>
+            </f:for>
+        </ul>
+    </f:else>
+</f:if>
+</html>

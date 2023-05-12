@@ -8,5 +8,13 @@
     <f:flashMessages/>
 
     <f:render partial="Form" arguments="{_all}"/>
+
+    <h4>Script Output</h4>
+    <p class="bg-light">
+        <code>
+            [~]> {extConf.shellScript}<br>
+            <f:for each="{output}" as="line">{line}<br></f:for>
+        </code>
+    </p>
 </f:section>
 </html>
