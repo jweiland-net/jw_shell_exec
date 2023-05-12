@@ -36,7 +36,7 @@ Add a possibility for your BE users to start the configured import script.
 Last three log entries
 ----------------------
 
-Set the shell script to show last 3 lines of the TYPO3 log:
+Set the shell script to show the last 3 lines of the TYPO3 log:
 
 ..  code-block:: bash
 
@@ -45,7 +45,7 @@ Set the shell script to show last 3 lines of the TYPO3 log:
 Show content of a file
 ----------------------
 
-Set the shell script to the content of a file:
+Set the shell script to show the content of a file:
 
 ..  code-block:: bash
 
