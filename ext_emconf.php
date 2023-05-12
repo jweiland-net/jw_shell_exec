@@ -4,6 +4,7 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'Execute shell script',
     'description' => 'With this extension you can execute exactly one defined Shell command as long as only one editor is logged into backend',
     'category' => 'plugin',
+    'state' => 'stable',
     'author' => 'Stefan Froemken',
     'author_email' => 'projects@jweiland.net',
     'author_company' => 'jweiland.net',
