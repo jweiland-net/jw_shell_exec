@@ -7,7 +7,7 @@ if (!defined('TYPO3')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
     'JwShellExec',
     'web',
-    'jwshell',
+    'jw_shell_exec',
     '',
     [
         \JWeiland\JwShellExec\Controller\ShellController::class => 'show, exec',

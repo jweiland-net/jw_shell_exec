@@ -61,7 +61,7 @@ class ShellController extends ActionController
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
             $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
-            $this->request->getAttribute('module')->getIdentifier(),
+            'web_JwShellExecJwShellExec',
             'JW Shell Exec'
         );
 
@@ -104,7 +104,7 @@ class ShellController extends ActionController
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
             $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
-            $this->request->getAttribute('module')->getIdentifier(),
+            'web_JwShellExecJwShellExec',
             'JW Shell Exec'
         );
 

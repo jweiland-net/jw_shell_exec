@@ -13,7 +13,7 @@ declare(strict_types=1);
  * Definitions for modules provided by EXT:jw_shell_exec
  */
 return [
-    'web_jwshellexec' => [
+    'web_JwShellExecJwShellExec' => [
         'parent' => 'web',
         'position' => ['after' => '*'],
         'access' => 'user,admin',
@@ -23,7 +23,7 @@ return [
         'controllerActions' => [
             \JWeiland\JwShellExec\Controller\ShellController::class => [
                 'show',
-                'exec'
+                'exec',
             ],
         ],
     ],
