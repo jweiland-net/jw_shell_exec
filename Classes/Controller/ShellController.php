@@ -12,9 +12,10 @@ declare(strict_types=1);
 namespace JWeiland\JwShellExec\Controller;
 
 use JWeiland\JwShellExec\Configuration\ExtConf;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
-use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use JWeiland\JwShellExec\Controller\Traits\AddShortcutButtonTrait;
+use JWeiland\JwShellExec\Domain\Repository\BackendUserRepository;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -24,13 +25,18 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class ShellController extends ActionController
 {
-    protected $defaultViewObjectName = BackendTemplateView::class;
+    use AddShortcutButtonTrait;
 
-    protected $view;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
 
     protected ExtConf $extConf;
 
     protected BackendUserRepository $backendUserRepository;
+
+    public function injectModuleTemplateFactory(ModuleTemplateFactory $moduleTemplateFactory): void
+    {
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
+    }
 
     public function injectExtConf(ExtConf $extConf): void
     {
@@ -43,20 +49,33 @@ class ShellController extends ActionController
     }
 
     /**
-     * Action to show a form, where you will see the other logged in users
+     * Action to show a form, where you will see the other logged-in users
      */
-    public function showAction(): void
+    public function showAction(): ResponseInterface
     {
-        $this->view->assign('extConf', $this->extConf);
-        $this->view->assign('loggedInUsers', $this->getLoggedInUsers());
+        $this->view->assignMultiple([
+            'extConf' => $this->extConf,
+            'loggedInUsers' => $this->backendUserRepository->findSiblingsOnline(),
+        ]);
+
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->addShortcutToButtonBar(
+            $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
+            $this->request->getAttribute('module')->getIdentifier(),
+            'JW Shell Exec'
+        );
+
+        $moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
     /**
-     * This action will execute the configured shell script from ExtensionManager configuration
+     * This action will execute the configured shell script from Extension Settings
      */
-    public function execAction(): void
+    public function execAction(): ResponseInterface
     {
-        $output = '';
+        $output = [];
         $returnValue = 0;
         CommandUtility::exec($this->extConf->getResolvedShellScript(), $output, $returnValue);
 
@@ -72,30 +91,12 @@ class ShellController extends ActionController
                 AbstractMessage::ERROR
             );
             $this->addFlashMessage(
-                'Maybe helpful: Your script returns following output: ' . $output,
+                'Maybe helpful: Your script returns following output: ' . implode('; ', $output),
                 'Output',
                 AbstractMessage::INFO
             );
         }
-        $this->redirect('show', 'Shell', 'jwShellExec');
-    }
 
-    protected function getLoggedInUsers(): array
-    {
-        $loggedInUsers = $this->backendUserRepository->findOnline()->toArray();
-        foreach ($loggedInUsers as $key => $loggedInUser) {
-            if ((int)$this->getBackendUserAuthentication()->user['uid'] === $loggedInUser->getUid()) {
-                unset($loggedInUsers[$key]);
-            }
-        }
-
-        $this->view->assign('loggedInUsers', $this->backendUserRepository->findOnline());
-
-        return $loggedInUsers;
-    }
-
-    protected function getBackendUserAuthentication(): BackendUserAuthentication
-    {
-        return $GLOBALS['BE_USER'];
+        return $this->redirect('show', 'Shell', 'JwShellExec');
     }
 }

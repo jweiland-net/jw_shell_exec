@@ -23,11 +23,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ExtConf implements SingletonInterface
 {
     /**
-     * shell script path
-     *
-     * @var string
+     * Shell script path
      */
-    protected $shellScript = '';
+    protected string $shellScript = '';
 
     /**
      * This method reads the global configuration and calls the setter methods.
