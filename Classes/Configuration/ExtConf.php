@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -35,7 +36,7 @@ class ExtConf implements SingletonInterface
         try {
             $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('jw_shell_exec');
             if (is_array($extConf)) {
-                // call setter method foreach configuration entry
+                // Call setter method foreach configuration entry
                 foreach ($extConf as $key => $value) {
                     $methodName = 'set' . ucfirst($key);
                     if (method_exists($this, $methodName)) {
@@ -68,16 +69,36 @@ class ExtConf implements SingletonInterface
 
     public function getShellScriptExists(): bool
     {
-        return @is_file($this->shellScript);
+        return CommandUtility::checkCommand($this->getExecutable());
     }
 
-    public function getShellScriptExecutable(): bool
+    public function getExecutable(): string
     {
-        return @is_executable($this->shellScript);
+        $parts = GeneralUtility::trimExplode(' ', $this->shellScript, true);
+        if ($parts === []) {
+            return '';
+        }
+
+        return $parts[0];
     }
 
     public function setShellScript(string $shellScript): void
     {
         $this->shellScript = $shellScript;
+    }
+
+    public function getPreparedShellCommand(): string
+    {
+        $parts = GeneralUtility::trimExplode(' ', $this->shellScript, true);
+        if (count($parts) < 2) {
+            return $this->getExecutable();
+        }
+
+        $executable = array_shift($parts);
+        $parts = array_map(function ($argument) {
+            return CommandUtility::escapeShellArgument($argument);
+        }, $parts);
+
+        return $executable . ' ' . implode(' ', $parts);
     }
 }

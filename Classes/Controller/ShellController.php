@@ -77,7 +77,7 @@ class ShellController extends ActionController
     {
         $output = [];
         $returnValue = 0;
-        CommandUtility::exec($this->extConf->getResolvedShellScript(), $output, $returnValue);
+        CommandUtility::exec($this->extConf->getPreparedShellCommand(), $output, $returnValue);
 
         if ($returnValue === 0) {
             $this->addFlashMessage(
@@ -86,17 +86,27 @@ class ShellController extends ActionController
             );
         } else {
             $this->addFlashMessage(
-                'Your script returns another ReturnValue greater than 0',
+                'Your script returns a return value greater than 0',
                 'Oups',
                 AbstractMessage::ERROR
             );
-            $this->addFlashMessage(
-                'Maybe helpful: Your script returns following output: ' . implode('; ', $output),
-                'Output',
-                AbstractMessage::INFO
-            );
         }
 
-        return $this->redirect('show', 'Shell', 'JwShellExec');
+        $this->view->assignMultiple([
+            'extConf' => $this->extConf,
+            'loggedInUsers' => $this->backendUserRepository->findSiblingsOnline(),
+            'output' => array_map('trim', $output),
+        ]);
+
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->addShortcutToButtonBar(
+            $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
+            $this->request->getAttribute('module')->getIdentifier(),
+            'JW Shell Exec'
+        );
+
+        $moduleTemplate->setContent($this->view->render());
+
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 }
