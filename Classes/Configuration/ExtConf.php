@@ -29,6 +29,11 @@ class ExtConf implements SingletonInterface
     protected string $shellScript = '';
 
     /**
+     * Allow parallel execution
+     */
+    protected bool $allowParallelExecution = false;
+
+    /**
      * This method reads the global configuration and calls the setter methods.
      */
     public function __construct()
@@ -53,18 +58,19 @@ class ExtConf implements SingletonInterface
         return $this->shellScript;
     }
 
-    public function getResolvedShellScript(): string
+    public function setShellScript(string $shellScript): void
     {
-        if ($this->getShellScriptBeginsWithExt()) {
-            return GeneralUtility::getFileAbsFileName($this->shellScript);
-        }
-
-        return $this->getShellScript();
+        $this->shellScript = $shellScript;
     }
 
-    public function getShellScriptBeginsWithExt(): bool
+    public function isAllowParallelExecution(): bool
     {
-        return strpos($this->shellScript, 'EXT:') === 0;
+        return $this->allowParallelExecution;
+    }
+
+    public function setAllowParallelExecution(string $allowParallelExecution): void
+    {
+        $this->allowParallelExecution = (bool)$allowParallelExecution;
     }
 
     public function getShellScriptExists(): bool
@@ -82,16 +88,11 @@ class ExtConf implements SingletonInterface
         return $parts[0];
     }
 
-    public function setShellScript(string $shellScript): void
-    {
-        $this->shellScript = $shellScript;
-    }
-
     public function getPreparedShellCommand(): string
     {
         $parts = GeneralUtility::trimExplode(' ', $this->shellScript, true);
         if (count($parts) < 2) {
-            return $this->getExecutable();
+            return CommandUtility::getCommand($this->getExecutable());
         }
 
         $executable = array_shift($parts);
@@ -99,6 +100,6 @@ class ExtConf implements SingletonInterface
             return CommandUtility::escapeShellArgument($argument);
         }, $parts);
 
-        return $executable . ' ' . implode(' ', $parts);
+        return CommandUtility::getCommand($executable) . ' ' . implode(' ', $parts);
     }
 }

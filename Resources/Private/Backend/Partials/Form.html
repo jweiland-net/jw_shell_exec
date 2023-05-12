@@ -12,19 +12,12 @@
     </div>
 </f:if>
 
-<f:if condition="{extConf.shellScriptBeginsWithExt} && {extConf.shellScript} !== 'EXT:'">
-    <p>
-        Resolved Shell script path:<br>
-        <code>{extConf.resolvedShellScript}</code>
-    </p>
-</f:if>
-
 <p>
     Currently configured shell script path:<br>
     <code>{extConf.shellScript}</code>
 </p>
 
-<f:if condition="{loggedInUsers->f:count()}==0">
+<f:if condition="{extConf.allowParallelExecution} || {loggedInUsers->f:count()}==0">
     <f:then>
         <f:if condition="{extConf.shellScriptExists}">
             <f:then>
@@ -39,30 +32,26 @@
         </f:if>
     </f:then>
     <f:else>
-        <f:if condition="{loggedInUsers}">
-            <h2>Currently logged in Users</h2>
+        <h2>Currently logged in Users</h2>
 
-            <div class="alert alert-success">
-                <h4>Other logged in users found</h4>
-                Shell Script can not be executed while other editors are currently logged in.
-            </div>
+        <div class="alert alert-warning">
+            <h4>Other logged in users found</h4>
+            To prevent side-effects while executing the script at the same time, executing is disabled until
+            all other BE users have been logged out. As an administrator you can activate parallel execution
+            in Extension Settings.
+        </div>
 
-            <ul>
-                <f:for each="{loggedInUsers}" as="loggedInUser">
-                    <li>
-                        <f:if condition="{loggedInUser.realName}">
-                            <f:then>
-                                {loggedInUser.realName}
-                            </f:then>
-                            <f:else>
-                                No name given
-                            </f:else>
-                        </f:if>
-                        ({loggedInUser.userName})
-                    </li>
-                </f:for>
-            </ul>
-        </f:if>
+        <ul class="list-group">
+            <f:for each="{loggedInUsers}" as="loggedInUser">
+                <li class="list-group-item">
+                    <f:if condition="{loggedInUser.realName}">
+                        <f:then>{loggedInUser.realName}</f:then>
+                        <f:else>No name given</f:else>
+                    </f:if>
+                    ({loggedInUser.userName})
+                </li>
+            </f:for>
+        </ul>
     </f:else>
 </f:if>
 </html>

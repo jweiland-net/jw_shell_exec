@@ -53,10 +53,10 @@ class ShellController extends ActionController
      */
     public function showAction(): ResponseInterface
     {
-        $this->view->assignMultiple([
-            'extConf' => $this->extConf,
-            'loggedInUsers' => $this->backendUserRepository->findSiblingsOnline(),
-        ]);
+        $this->view->assign('extConf', $this->extConf);
+        if (!$this->extConf->isAllowParallelExecution()) {
+            $this->view->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
+        }
 
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
@@ -94,9 +94,12 @@ class ShellController extends ActionController
 
         $this->view->assignMultiple([
             'extConf' => $this->extConf,
-            'loggedInUsers' => $this->backendUserRepository->findSiblingsOnline(),
             'output' => array_map('trim', $output),
         ]);
+
+        if (!$this->extConf->isAllowParallelExecution()) {
+            $this->view->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
+        }
 
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
