@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 3.0.1
+=============
+
+*   [DOCU] Add example usages
+*   [DOCU] Add screenshots
+
 Version 3.0.0
 =============
 
