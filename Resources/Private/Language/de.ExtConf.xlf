@@ -3,13 +3,13 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2019-07-13T13:47:40Z" product-name="jw_shell_script" target-language="de">
     <header/>
     <body>
-      <trans-unit id="shellScript">
+      <trans-unit id="shellScript" approved="yes">
         <source>Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</source>
-        <target state="needs-translation">Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</target>
+        <target state="final">Shell-Skript: Bitte geben Sie den Pfad zum Shell-Skript ein. Lesen Sie die Dokumentation für weitere Informationen.</target>
       </trans-unit>
-      <trans-unit id="allowParallelExecution">
+      <trans-unit id="allowParallelExecution" approved="yes">
         <source>Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</source>
-        <target state="needs-translation">Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</target>
+        <target state="final">Erlaube parallele Ausführung: Um Nebeneffekte zu vermeiden, wenn BE-Benutzer das Skript gleich gestartet haben, ist die parallele Ausführung standardmäßig deaktiviert. Wenn Sie sicher sind, dass keine Nebeneffekte auftreten werden, können Sie diese Option aktivieren.</target>
       </trans-unit>
     </body>
   </file>
