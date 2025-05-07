@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2019-07-13T13:47:40Z" product-name="jw_shell_script" target-language="en">
+    <header/>
+    <body>
+      <trans-unit id="shellScript">
+        <source>Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</source>
+        <target state="needs-translation">Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</target>
+      </trans-unit>
+      <trans-unit id="allowParallelExecution">
+        <source>Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</source>
+        <target state="needs-translation">Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
