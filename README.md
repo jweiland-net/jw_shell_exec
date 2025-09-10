@@ -32,3 +32,9 @@ Download and install `jw_shell_exec` with the extension manager module.
 1) Configure an absolute path to an executable script in extension settings
 2) Check, that just you are logged in into backend
 3) Visit JW Shell Exec BE module and start the script
+
+## 3 Support
+
+Free Support is available via [GitHub Issue Tracker](https://github.com/jweiland-net/jw_shell_exec/issues).
+
+For commercial support, please contact us at [support@jweiland.net](support@jweiland.net).
