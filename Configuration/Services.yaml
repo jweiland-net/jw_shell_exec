@@ -6,3 +6,5 @@ services:
 
   JWeiland\JwShellExec\:
     resource: '../Classes/*'
+    exclude:
+      - '../Classes/Domain/Model/*'

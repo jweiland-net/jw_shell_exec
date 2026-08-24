@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use JWeiland\JwShellExec\Domain\Model\BackendUser;
+
 return [
-    \JWeiland\JwShellExec\Domain\Model\BackendUser::class => [
+    BackendUser::class => [
         'tableName' => 'be_users',
         'properties' => [
             'userName' => [
