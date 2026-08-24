@@ -11,46 +11,48 @@ declare(strict_types=1);
 
 namespace JWeiland\JwShellExec\Configuration;
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class streamlines all settings from extension manager
  */
-class ExtConf implements SingletonInterface
+#[Autoconfigure(constructor: 'create')]
+final readonly class ExtConf
 {
-    /**
-     * Shell script path
-     */
-    protected string $shellScript = '';
+    private const EXT_KEY = 'maps2';
 
-    /**
-     * Allow parallel execution
-     */
-    protected bool $allowParallelExecution = false;
+    private const DEFAULT_SETTINGS = [
+        'shellScript' => '',
+        'allowParallelExecution' => false,
+    ];
 
-    /**
-     * This method reads the global configuration and calls the setter methods.
-     */
-    public function __construct()
+    public function __construct(
+        private string $shellScript = self::DEFAULT_SETTINGS['shellScript'],
+        private bool $allowParallelExecution = self::DEFAULT_SETTINGS['allowParallelExecution'],
+    ) {}
+
+    public static function create(ExtensionConfiguration $extensionConfiguration): self
     {
+        $extensionSettings = self::DEFAULT_SETTINGS;
+
+        // Overwrite default extension settings with values from EXT_CONF
         try {
-            $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('jw_shell_exec');
-            if (is_array($extConf)) {
-                // Call setter method foreach configuration entry
-                foreach ($extConf as $key => $value) {
-                    $methodName = 'set' . ucfirst($key);
-                    if (method_exists($this, $methodName)) {
-                        $this->$methodName((string)$value);
-                    }
-                }
-            }
-        } catch (ExtensionConfigurationExtensionNotConfiguredException | ExtensionConfigurationPathDoesNotExistException $e) {
+            $extensionSettings = array_merge(
+                $extensionSettings,
+                $extensionConfiguration->get(self::EXT_KEY),
+            );
+        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
         }
+
+        return new self(
+            shellScript: (string)$extensionSettings['shellScript'],
+            allowParallelExecution: (bool)$extensionSettings['allowParallelExecution'],
+        );
     }
 
     public function getShellScript(): string
@@ -58,19 +60,9 @@ class ExtConf implements SingletonInterface
         return $this->shellScript;
     }
 
-    public function setShellScript(string $shellScript): void
-    {
-        $this->shellScript = $shellScript;
-    }
-
     public function isAllowParallelExecution(): bool
     {
         return $this->allowParallelExecution;
-    }
-
-    public function setAllowParallelExecution(string $allowParallelExecution): void
-    {
-        $this->allowParallelExecution = (bool)$allowParallelExecution;
     }
 
     public function getShellScriptExists(): bool

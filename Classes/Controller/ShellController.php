@@ -16,7 +16,7 @@ use JWeiland\JwShellExec\Controller\Traits\AddShortcutButtonTrait;
 use JWeiland\JwShellExec\Domain\Repository\BackendUserRepository;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\CommandUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -27,47 +27,31 @@ class ShellController extends ActionController
 {
     use AddShortcutButtonTrait;
 
-    protected ModuleTemplateFactory $moduleTemplateFactory;
-
-    protected ExtConf $extConf;
-
-    protected BackendUserRepository $backendUserRepository;
-
-    public function injectModuleTemplateFactory(ModuleTemplateFactory $moduleTemplateFactory): void
-    {
-        $this->moduleTemplateFactory = $moduleTemplateFactory;
-    }
-
-    public function injectExtConf(ExtConf $extConf): void
-    {
-        $this->extConf = $extConf;
-    }
-
-    public function injectBackendUserRepository(BackendUserRepository $backendUserRepository): void
-    {
-        $this->backendUserRepository = $backendUserRepository;
-    }
+    public function __construct(
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly BackendUserRepository $backendUserRepository,
+        private readonly ExtConf $extConf,
+    ) {}
 
     /**
      * Action to show a form, where you will see the other logged-in users
      */
     public function showAction(): ResponseInterface
     {
-        $this->view->assign('extConf', $this->extConf);
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+
+        $moduleTemplate->assign('extConf', $this->extConf);
         if (!$this->extConf->isAllowParallelExecution()) {
-            $this->view->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
+            $moduleTemplate->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
         }
 
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
             $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
             'web_JwShellExecJwShellExec',
             'JW Shell Exec'
         );
 
-        $moduleTemplate->setContent($this->view->render());
-
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        return $moduleTemplate->renderResponse('Show');
     }
 
     /**
@@ -75,6 +59,8 @@ class ShellController extends ActionController
      */
     public function execAction(): ResponseInterface
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+
         $output = [];
         $returnValue = 0;
         CommandUtility::exec($this->extConf->getPreparedShellCommand(), $output, $returnValue);
@@ -88,28 +74,25 @@ class ShellController extends ActionController
             $this->addFlashMessage(
                 'Your script returns a return value greater than 0',
                 'Oups',
-                AbstractMessage::ERROR
+                ContextualFeedbackSeverity::ERROR,
             );
         }
 
-        $this->view->assignMultiple([
+        $moduleTemplate->assignMultiple([
             'extConf' => $this->extConf,
             'output' => array_map('trim', $output),
         ]);
 
         if (!$this->extConf->isAllowParallelExecution()) {
-            $this->view->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
+            $moduleTemplate->assign('loggedInUsers', $this->backendUserRepository->findSiblingsOnline());
         }
 
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->addShortcutToButtonBar(
             $moduleTemplate->getDocHeaderComponent()->getButtonBar(),
             'web_JwShellExecJwShellExec',
             'JW Shell Exec'
         );
 
-        $moduleTemplate->setContent($this->view->render());
-
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        return $moduleTemplate->renderResponse('Exec');
     }
 }

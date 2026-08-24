@@ -24,49 +24,32 @@
 		"source": "https://github.com/jweiland-net/jw_shell_exec"
 	},
 	"require": {
-		"typo3/cms-core": "^11.5.23 || ^12.4.0"
+		"typo3/cms-core": "^13.4.34"
 	},
 	"require-dev": {
-		"roave/security-advisories": "dev-latest",
-		"friendsofphp/php-cs-fixer": "^3.14"
-	},
-	"replace": {
-		"typo3-ter/jw_shell_exec": "self.version"
+		"ergebnis/composer-normalize": "^2.44",
+		"typo3/coding-standards": "^0.8",
+		"typo3/testing-framework": "^9.0.1"
 	},
 	"autoload": {
 		"psr-4": {
 			"JWeiland\\JwShellExec\\": "Classes"
 		}
 	},
-	"autoload-dev": {
-		"psr-4": {
-			"JWeiland\\JwShellExec\\Tests\\": "Tests"
-		}
-	},
 	"config": {
-		"vendor-dir": ".build/vendor",
 		"allow-plugins": {
+			"ergebnis/composer-normalize": true,
 			"typo3/class-alias-loader": true,
 			"typo3/cms-composer-installers": true
-		}
+		},
+		"bin-dir": ".Build/bin",
+		"vendor-dir": ".Build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
+			"app-dir": ".Build",
 			"extension-key": "jw_shell_exec",
-			"app-dir": ".build",
-			"web-dir": ".build/public"
+			"web-dir": ".Build/public"
 		}
-	},
-	"scripts": {
-		"php:fix": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/php-cs-fixer.php fix",
-		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": ".build/vendor/bin/php-cs-fixer --config=Build/php-cs-fixer/php-cs-fixer.php fix --dry-run -v --show-progress=dots --diff",
-		"link-extension": [
-			"@php -r 'is_dir($extFolder=__DIR__.\"/.build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
-			"@php -r 'file_exists($extFolder=__DIR__.\"/.build/public/typo3conf/ext/jw_shell_exec\") || symlink(__DIR__,$extFolder);'"
-		],
-		"post-autoload-dump": [
-			"@link-extension"
-		]
 	}
 }
