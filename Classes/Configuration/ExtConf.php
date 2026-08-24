@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 #[Autoconfigure(constructor: 'create')]
 final readonly class ExtConf
 {
-    private const EXT_KEY = 'maps2';
+    private const EXT_KEY = 'jw_shell_exec';
 
     private const DEFAULT_SETTINGS = [
         'shellScript' => '',

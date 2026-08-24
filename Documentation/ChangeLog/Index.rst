@@ -7,6 +7,12 @@
 ChangeLog
 =========
 
+Version 4.0.0
+=============
+
+*   [TASK] Add TYPO3 13 compatibility
+*   [TASK] Remove TYPO3 11 and TYPO3 12 compatibility
+
 Version 3.0.1
 =============
 

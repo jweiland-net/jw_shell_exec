@@ -51,7 +51,7 @@ Set the shell script to show the content of a file:
 
     cat /var/www/html/index.php
 
-Execute typo3 commands
+Execute TYPO3 commands
 ----------------------
 
 In most cases your BE users does not have access to `scheduler` module,
@@ -67,7 +67,7 @@ Screenshots
 
 See `jw_shell_exec` in action.
 
-Execute Command
+Execute command
 ---------------
 
 This is an example output of the BE module of `jw:shell_exec`. As you can
@@ -80,7 +80,7 @@ After execution you will see the command output.
     :width: 500px
     :alt: BE module and example command output
 
-Prevent Parallel Execution
+Prevent parallel execution
 --------------------------
 
 By default it is not possible to execute a shell script, if another

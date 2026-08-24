@@ -4,7 +4,7 @@
 ..  _extensionSettings:
 
 ==================
-Extension Settings
+Extension settings
 ==================
 
 Some general settings for `jw_shell_exec` can be configured
@@ -14,7 +14,7 @@ in *Admin Tools -> Settings*.
 Tab: Basic
 ==========
 
-Shell Script
+Shell script
 ------------
 
 Default: `pwd`
@@ -53,4 +53,4 @@ Default: false
 
 To prevent side-effects when BE users have started the script
 at the same, the parallel execution is disabled by default. If you're
-sure that no side-effects will occure you can activate this option.
+sure that no side-effects will occur you can activate this option.

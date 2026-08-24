@@ -3,16 +3,16 @@
 
 ..  _user-manual:
 
-============
-Users Manual
-============
+===========
+User manual
+===========
 
-Execute Shell Script
+Execute shell script
 ====================
 
 ..  rst-class:: bignums
 
-1.  Visit BE Module
+1.  Visit BE module
 
     Click on `JW Shell Exec` from the left main menu in TYPO3 backend. It is
     only visible, if an integrator has given you access to that BE module.
