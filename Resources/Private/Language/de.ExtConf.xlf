@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-07-13T13:47:40Z" product-name="jw_shell_script">
-		<header/>
-		<body>
-			<trans-unit id="shellScript">
-				<source>Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</source>
-				<target>Welchers Skript soll ausgeführt werden: Bitte gib hier einen Pfad zu dem Skript an. Schau auch mal für weitere Informationen in die Dokumentation.</target>
-			</trans-unit>
-			<trans-unit id="allowParallelExecution">
-				<source>Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</source>
-				<target>Parallele Ausführung zulassen: Um Nebeneffekte zu vermeiden, wenn BE-Benutzer das Skript gleichzeitig gestartet haben, ist die parallele Ausführung standardmäßig deaktiviert. Wenn Sie sicher sind, dass keine Nebeneffekte auftreten, können Sie diese Option aktivieren.</target>
-			</trans-unit>
-		</body>
-	</file>
+  <file source-language="en" datatype="plaintext" original="messages" date="2019-07-13T13:47:40Z" product-name="jw_shell_script" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="shellScript" approved="yes">
+        <source>Shell script to execute: Please type in the path to the shell script. Have a look into documentation for further information.</source>
+        <target state="final">Shell-Skript: Bitte geben Sie den Pfad zum Shell-Skript ein. Lesen Sie die Dokumentation für weitere Informationen.</target>
+      </trans-unit>
+      <trans-unit id="allowParallelExecution" approved="yes">
+        <source>Allow parallel execution: To prevent side-effects when BE users have started the script at the same, the parallel execution is disabled by default. If you're sure that no side-effects will occure you can activate this option.</source>
+        <target state="final">Erlaube parallele Ausführung: Um Nebeneffekte zu vermeiden, wenn BE-Benutzer das Skript gleich gestartet haben, ist die parallele Ausführung standardmäßig deaktiviert. Wenn Sie sicher sind, dass keine Nebeneffekte auftreten werden, können Sie diese Option aktivieren.</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
